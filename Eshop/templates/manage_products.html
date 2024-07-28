@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+{%block body%}
+<title>Manage PRODUCTS</title>
+
+<center>This is the PRODUCT MANAGEMENT PAGE</center>
+
+<form action="logout" method="POST">
+    {% csrf_token %}
+    <center><input type="submit" value="Logoff" name="logoffButton" /></center>
+</form>
+
+<form action="addProduct">
+    <input type="submit" value="Add Products" name="addButton" />
+</form>
+
+<form action="updateProduct">
+    <input type="submit" value="Update Products" name="updateButton" />
+</form>
+
+<form action="removeProduct">
+    <input type="submit" value="Remove Products" name="removeButton" />
+</form>
+
+{%endblock%}

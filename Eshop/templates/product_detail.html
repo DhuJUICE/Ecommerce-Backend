@@ -1,0 +1,63 @@
+{%extends 'base.html'%}
+{%block body%}
+<header>This is the details about the product</header>
+
+<form action="productListing" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Back" name="backButton" />
+</form>
+
+<form action="logout" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="LogOff" name="logoffButton" />
+</form>
+
+<table border="1" cellpadding="5">
+    <!--Use a for loop to display all the products from the database-->
+    <tr>
+    <tr>
+        <td>
+            <img src={{displayProduct.prodImage.url}}>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Product Name: {{displayProduct.prodName}}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Product Description : {{displayProduct.prodDesc}}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Product Available Quantity: {{displayProduct.prodAvailQuant}}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Product Category: {{displayProduct.prodCategory}}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <form action="addToCart" method="POST">
+                {% csrf_token %}
+                <input type="hidden" value={{user.id}} name="userid" />
+                <input type="hidden" value={{displayProduct.id}} name="productid" />
+                Quantity To Buy: <input type="number" placeholder="Enter amount to buy" name="prodQuantity" />
+                <input type="submit" value="Add to Cart" name="addToCart" />
+            </form>
+        </td>
+    </tr>
+    </tr>
+
+</table>
+
+{%endblock%}

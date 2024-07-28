@@ -1,0 +1,54 @@
+{%extends 'base.html'%}
+{%block body%}
+<title>Home</title>
+
+{%if user.is_authenticated%}
+<center>Welcome to Eshop - {{user.username}}</center>
+<center>
+    <form action="logout">
+        {% csrf_token %}
+        <input type="submit" value="Logout" />
+    </form>
+
+    <form action="continueShopping">
+        {% csrf_token %}
+        <input type="submit" value="Continue Shopping" />
+    </form>
+
+</center>
+{%else%}
+
+
+
+<center>Eshop Online Shop</center>
+
+<table border="1" align="center">
+    <tr>
+        <td>
+            <form action="login">
+                {% csrf_token %}
+                <input type="submit" value="login" name="loginButton" />
+            </form>
+
+        </td>
+
+        <td>
+            <form action="register">
+                {% csrf_token %}
+                <input type="submit" value="register" name="registerButton" />
+            </form>
+
+
+
+        </td>
+
+
+    </tr>
+
+    
+</table>
+
+{%endif%}
+
+
+{%endblock%}

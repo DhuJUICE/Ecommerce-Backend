@@ -1,0 +1,90 @@
+{%extends 'base.html'%}
+{%block body%}
+{%if user.is_authenticated%}
+<header>Welcome to the Products Section - {{user.username}}</header>
+{%else%}
+<header>This is the Shop's products</header>
+{%endif%}
+
+
+<form action="logout" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="LogOff" name="logoffButton" />
+</form>
+
+<form action="openCart" method="POST">
+    {% csrf_token %}
+    <input type="hidden" value={{user.id}} name="useridCart" />
+    <input type="submit" value="Cart" name="cartButton" />
+</form>
+
+<table border="1" cellpadding="5">
+    <!--Use a for loop to display all the products from the database-->
+    {%for product in products%}
+        
+        <tr>
+            <tr>
+                <td>                    
+                    <img src={{product.prodImage.url}}>  
+                    
+                    <form id="productForm" action="productDetail" method="POST">
+                        {% csrf_token %}     
+                        <input type="hidden" value={{product.id}} name="productNum" />
+                        <input type="submit" value="productDetails" name="productDetailButton" />
+                    </form>
+
+                   
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    
+                    
+                        Product Name: {{product.prodName}}
+            
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Product Description : {{product.prodDesc}}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Product Available Quantity: {{product.prodAvailQuant}}                    
+                </td>
+            </tr>
+
+            <tr>
+                <td>                                
+                    Product Category: {{product.prodCategory}}
+                </td>  
+            </tr>
+
+            <tr>
+                <td>
+                    Product Price: R{{product.prodPrice}}
+                </td>
+            </tr>
+
+            <tr>
+                <td>             
+                    <form action="addToCart" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" value={{user.id}} name="userid" />
+                        <input type="hidden" value={{product.id}} name="productid" />
+                        Quantity To Buy: <input type="number" placeholder="Enter amount to buy" name="prodQuantity" />
+
+                        <input type="submit" value="Add to Cart" name="addToCart" />
+                    </form>
+                </td>                
+            </tr>
+        </tr>    
+    {%endfor%}    
+</table>
+
+
+{%endblock%}

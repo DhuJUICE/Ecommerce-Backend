@@ -1,0 +1,94 @@
+{%extends 'base.html'%}
+{%block body%}
+<header>This is your Cart - {{user.username}}</header>
+
+<form action="productListing" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Back" name="backButton" />
+</form>
+
+<form action="logout" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="LogOff" name="logoffButton" />
+</form>
+
+<input type="submit" value="Checkout" name="checkoutButton" /><br />
+
+
+<table border="1" cellpadding="10">
+    <tr>
+        Total Purchase Total : R {{totalPurchaseTotal}}
+    </tr>
+    {%for cartProduct in displayProducts%}
+    <!--Use a for loop to display all the products from the database-->
+    <tr>
+
+        <tr>
+            <td>
+                ProductId: {{cartProduct.productid.id}}
+        <tr>
+            <td>
+                <img src="{{cartProduct.productid.prodImage.url}}">
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Product Name: {{cartProduct.productid.prodName}}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Product Description : {{cartProduct.productid.prodDesc}}
+            </td>
+        </tr>
+        </td>
+        </tr>
+
+        <tr>
+            <td>
+                Product Price: R{{cartProduct.productid.prodPrice}}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Quantity in Stock: {{cartProduct.productid.prodAvailQuant}}
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                Quantity Added: {{cartProduct.quantAdded}}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Product Purchase Total: R{{cartProduct.product_total}}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <form action="removeFromCart" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value={{cartProduct.id}} name="cartid" />
+                    <input type="hidden" value={{user.id}} name="userid" />
+                    <input type="hidden" value={{cartProduct.productid.id}} name="productNum" />
+                    <input type="submit" value="Remove From Cart" name="removeCartButton" />
+                </form>
+            </td>
+        </tr>
+
+    </tr>
+
+    {%endfor%}
+
+</table>
+
+
+
+
+{%endblock%}

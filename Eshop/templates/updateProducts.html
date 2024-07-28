@@ -1,0 +1,62 @@
+{%extends 'base.html'%}
+{%block body%}
+<title>UPDATE PRODUCT</title>
+
+<center>This is the UPDATE PRODUCT PAGE</center>
+
+<form action="manageProducts" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Back" name="backButton" />
+</form>
+
+<div style="max-height: 400px; overflow-y: auto; border: 1px solid #ddd;">
+
+        <table border="1" align="center">
+            {%for product in products%}
+            <tr>
+                <td>
+                    Name: {{product.prodName}}
+
+                </td>
+
+                <td>
+                    Price: {{product.prodPrice}}
+
+                </td>
+
+                <td>
+                    Description: {{product.prodDesc}}
+
+                </td>
+
+                <td>
+                    Quantity: {{product.prodAvailQuant}}
+
+                </td>
+
+                <td>
+                    <img width="80" src={{product.prodImage.url}}>
+
+                </td>
+
+                <td>
+                    Category: {{product.prodCategory}}
+
+                </td>
+
+                <td>
+                    <form action="finalUpdateProduct" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" value={{product.id}} name="productNum" />
+                        <input type="submit" value="select" name="selectButton" />
+                    </form>
+                </td>
+            </tr>
+            {%endfor%}
+
+
+        </table>
+    
+</div>
+
+{%endblock%}

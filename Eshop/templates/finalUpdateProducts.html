@@ -1,0 +1,93 @@
+{%extends 'base.html'%}
+{%block body%}
+<title>UPDATE PRODUCT</title>
+
+<center>This is the FINAL UPDATE PRODUCT PAGE</center>
+
+<form action="updateProduct" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Back" name="backButton" />
+</form>
+
+<div style="max-height: 280px; overflow-y: auto; border: 1px solid #ddd;">
+    <table border="1" align="center">
+        
+        <tr>
+            <td>
+                Name: {{product.prodName}}
+            </td>
+
+            <td>
+                Price: {{product.prodPrice}}
+            </td>
+
+            <td>
+                Description: {{product.prodDesc}}
+            </td>
+
+            <td>
+                Quantity: {{product.prodAvailQuant}}
+            </td>
+
+            <td>
+                <img width="80" src={{product.prodImage.url}}>
+            </td>
+
+            <td>
+                Category: {{product.prodCategory}}
+            </td>
+        </tr>
+    
+
+
+    </table>
+</div>
+
+<form action="updateProductToDB" method="POST">
+    {% csrf_token %}
+    <table border="1" align="center">
+        <tr>
+            <td>
+                Product Name:
+                <input type="text" name="prodName" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Product Price:
+                <input type="text" name="prodPrice" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Product Description:
+                <input type="text" name="prodDesc" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Product Quantity:
+                <input type="number" name="prodQuantity" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Product Image:
+                <input type="file" name="prodImage" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Product Category:
+                <input type="text" name="prodCategory" />
+            </td>
+        </tr>
+
+
+    </table>
+
+    <input type="hidden" value={{product.id}} name="productid" />
+    <input type="submit" value="Update Product" name="updateButton" />
+</form>
+
+{%endblock%}
