@@ -1,29 +1,38 @@
-{%extends 'base.html'%}
-{%block body%}
-<header>This is the checkout page</header>
-<table border="1">
-    <tr>
-        <td>
-            <input type="submit" value="Cart" name="cartButton" />
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Products in your Cart
-        </td>
-    </tr>
-    <tr>
+<!-- checkout.html -->
+<form action="{% url 'checkout' %}" method="POST" id="payment-form">
+    {% csrf_token %}
+    <div>
+        <label for="card-element">Credit or debit card</label>
+        <div id="card-element"><!-- A Stripe Element will be inserted here. --></div>
+        <div id="card-errors" role="alert"></div>
+    </div>
+    <button type="submit">Submit Payment</button>
+</form>
 
-        <td>
-            Product 1<br />
-            Price: R500<br />
-            Product Description: Very good product<br />
-        </td>
-        <td>
-            <input type="button" value="Remove" />
-        </td>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var stripe = Stripe('{{ stripe_public_key }}');
+    var elements = stripe.elements();
+    var cardElement = elements.create('card');
+    cardElement.mount('#card-element');
 
-    </tr>
-</table>
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
 
-{%endblock%}
+        stripe.createToken(cardElement).then(function(result) {
+            if (result.error) {
+                // Show error in #card-errors
+                document.getElementById('card-errors').textContent = result.error.message;
+            } else {
+                // Send the token to your server
+                var hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'stripeToken');
+                hiddenInput.setAttribute('value', result.token.id);
+                form.appendChild(hiddenInput);
+                form.submit();
+            }
+        });
+    });
+</script>
